@@ -1,0 +1,17 @@
+[project]
+name = "stock-kline-backend"
+version = "0.1.0"
+description = "个人看行情用的 K 线后端：FastAPI + yfinance"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "psycopg[binary]>=3.2",
+    "pyjwt>=2.8",
+    "python-socks[asyncio]>=2.5",
+    "uvicorn[standard]>=0.30",
+    "yfinance>=0.2.50",
+]
+
+[tool.vercel]
+# Vercel 部署入口
+entrypoint = "main:app"
