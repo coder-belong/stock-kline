@@ -137,6 +137,8 @@ WebSocket 不走 rewrites，浏览器直连 `wss://kline-api.belong.run/api/ws`�
 3. 前端：`cd frontend && npx vercel` → 填环境变量 → `npx vercel --prod`
 4. 两个项目各绑自定义域名，DNSPod 按 Vercel 给的值加 CNAME（和 notes.belong.run 一样）
 
+**保活**：`.github/workflows/keepalive.yml` 每 5 分钟访问一次后端，减少冷启动（Vercel 免费版的 Cron 一天只能跑一次，所以用 GitHub Actions）。
+
 **已知限制**
 - Vercel 上 WebSocket 连接最长跟函数时长一样（默认 5 分钟）会断，前端会自动重连，看到「重连中」闪一下是正常的。
 - Yahoo 对云服务器 IP 可能限流（yfinance 报 Too Many Requests），部署后先观察；不行再换数据源或给后端换出口。

@@ -1,0 +1,22 @@
+# 每 5 分钟访问一次线上服务，让 Vercel 上的 Python 后端保持在线，减少冷启动（第一次打开卡十几秒）。
+# GitHub 的定时任务高峰期会延迟几分钟；公开仓库 60 天没有提交时会自动停用，去 Actions 页面点一下 Enable 就能恢复。
+name: keepalive
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: 访问后端和首页
+        run: |
+          for url in \
+            https://stock-kline-api.vercel.app/api/health \
+            "https://stock-kline-api.vercel.app/api/quote?symbol=SPY" \
+            https://kline.belong.run/ ; do
+            curl -s -o /dev/null -m 60 --retry 2 -w "%{http_code} %{time_total}s  $url\n" "$url"
+          done
