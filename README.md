@@ -2,9 +2,9 @@
 
 自己看美股行情、做模拟交易的小工具。
 
-**在线体验：<https://kline.belong.run>** · 宣传页：[`site/index.html`](site/index.html)
+**在线体验：<https://kline.belong.run>** · 宣传页：<https://kline.belong.run/intro>
 
-![演示](site/demo.gif)
+![演示](frontend/public/intro/demo.gif)
 
 - 前端：Next.js 14（App Router）+ lightweight-charts（TradingView 开源图表）
 - 后端：FastAPI + yfinance（Yahoo Finance 非官方接口）+ Postgres（账号、模拟账户）
@@ -143,4 +143,4 @@ WebSocket 不走 rewrites，浏览器直连 `wss://kline-api.belong.run/api/ws`�
 
 ## 宣传页
 
-`site/` 是一个纯静态页面（`index.html` + 演示视频 `demo.mp4` / 动图 `demo.gif` + 截图），直接用浏览器打开，或者用 GitHub Pages / Vercel 托管都行。
+静态页面放在 `frontend/public/intro/`（`index.html` + 演示视频 `demo.mp4` / 动图 `demo.gif` + 截图），跟前端一起部署，访问 `/intro` 就是宣传页（`next.config.mjs` 里的 rewrite）。
