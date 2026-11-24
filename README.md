@@ -2,6 +2,10 @@
 
 自己看美股行情、做模拟交易的小工具。
 
+**在线体验：<https://kline.belong.run>** · 宣传页：[`site/index.html`](site/index.html)
+
+![演示](site/demo.gif)
+
 - 前端：Next.js 14（App Router）+ lightweight-charts（TradingView 开源图表）
 - 后端：FastAPI + yfinance（Yahoo Finance 非官方接口）+ Postgres（账号、模拟账户）
 - 实时：后端连 Yahoo 实时价格流，再用 WebSocket（`/api/ws`）推给浏览器
@@ -112,8 +116,8 @@ Yahoo streamer ──WebSocket──▶ backend/live.py Hub ──WebSocket /api
 | 部分 | 放哪 | 域名（示例） |
 |---|---|---|
 | 前端 `frontend/` | Vercel 项目 stock-kline-web（Next.js） | kline.belong.run |
-| 后端 `backend/` | Vercel 项目 stock-kline-api（FastAPI，Python 函数，香港 hkg1） | kline-api.belong.run |
-| 数据库 | Neon Postgres（Vercel Marketplace 里加，选新加坡） | — |
+| 后端 `backend/` | Vercel 项目 stock-kline-api（FastAPI，Python 函数，美东 iad1，和 Neon 同机房） | kline-api.belong.run |
+| 数据库 | Neon Postgres（Vercel Marketplace 里加，us-east-1） | — |
 
 前端的 `/api/*` 由 Next rewrites 转发到后端，浏览器看来是同源，登录 Cookie 照常工作；
 WebSocket 不走 rewrites，浏览器直连 `wss://kline-api.belong.run/api/ws`。
@@ -124,7 +128,7 @@ WebSocket 不走 rewrites，浏览器直连 `wss://kline-api.belong.run/api/ws`�
 - `SK_WS_ORIGINS`：`https://kline.belong.run`（只让自己的前端连推送）
 
 **前端环境变量**（构建时生效，改了要重新部署）
-- `API_ORIGIN`：`https://kline-api.belong.run`
+- `API_ORIGIN`：`https://stock-kline-api.vercel.app`（服务端转发，用 vercel.app 域名就行）
 - `NEXT_PUBLIC_WS_URL`：`wss://kline-api.belong.run/api/ws`
 
 **步骤**
@@ -136,3 +140,7 @@ WebSocket 不走 rewrites，浏览器直连 `wss://kline-api.belong.run/api/ws`�
 **已知限制**
 - Vercel 上 WebSocket 连接最长跟函数时长一样（默认 5 分钟）会断，前端会自动重连，看到「重连中」闪一下是正常的。
 - Yahoo 对云服务器 IP 可能限流（yfinance 报 Too Many Requests），部署后先观察；不行再换数据源或给后端换出口。
+
+## 宣传页
+
+`site/` 是一个纯静态页面（`index.html` + 演示视频 `demo.mp4` / 动图 `demo.gif` + 截图），直接用浏览器打开，或者用 GitHub Pages / Vercel 托管都行。
